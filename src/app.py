@@ -1,7 +1,10 @@
 import streamlit as st
 import pandas as pd
-import numpy as np
-import plotly.express as px
+from utils import (
+    PERFORMANCE_METRICS, MOVEMENT_METRICS, MOVEMENT_OPTIONS,
+    create_new_entry, combine_data, create_performance_chart,
+    create_movement_assessment_chart
+)
 
 # Set page configuration
 st.set_page_config(
@@ -14,13 +17,66 @@ st.set_page_config(
 st.title("Athlete Insights Dashboard")
 st.markdown("Welcome to the Athlete Insights Dashboard. Analyze and visualize athlete performance data.")
 
-# File uploader
-uploaded_file = st.file_uploader("Upload Athlete Data CSV", type=['csv'])
+# Initialize session state for storing manual entries
+if 'manual_entries' not in st.session_state:
+    st.session_state.manual_entries = pd.DataFrame()
 
-if uploaded_file is not None:
-    # Read the CSV data
-    df = pd.read_csv(uploaded_file)
-    
+# Create tabs for file upload and manual entry
+tab1, tab2 = st.tabs(["Upload CSV", "Manual Entry"])
+
+with tab1:
+    uploaded_file = st.file_uploader("Upload Athlete Data CSV", type=['csv'])
+
+with tab2:
+    st.subheader("Manual Data Entry")
+    with st.form("data_entry_form"):
+        col1, col2, col3 = st.columns(3)
+        
+        with col1:
+            form_data = {
+                'athlete_name': st.text_input("Athlete Name"),
+                'test_date': st.date_input("Test Date"),
+                'sport': st.text_input("Sport"),
+                'sprint_10': st.number_input("0-10 Yard Sprint (s)", min_value=0.0, format="%.2f"),
+                'fly_10': st.number_input("Fly-10 (s)", min_value=0.0, format="%.2f"),
+                'pro_agility': st.number_input("Pro-Agility (s)", min_value=0.0, format="%.2f")
+            }
+        
+        with col2:
+            form_data.update({
+                'mtp_force': st.number_input("MTP Peak Force (N)", min_value=0.0, format="%.1f"),
+                'chin_up': st.number_input("Chin-Up Strength (Reps)", min_value=0),
+                'cmj': st.number_input("CMJ (in)", min_value=0.0, format="%.1f"),
+                'ncmj': st.number_input("NCMJ (in)", min_value=0.0, format="%.1f"),
+                'med_ball': st.number_input("Seated Med Ball Throw (ft)", min_value=0.0, format="%.1f"),
+                'rsi': st.number_input("5-Jump RSI", min_value=0.0, format="%.2f")
+            })
+            
+        with col3:
+            form_data.update({
+                'm_ohs': st.selectbox("M-OHS", MOVEMENT_OPTIONS),
+                'm_hs': st.selectbox("M-HS", MOVEMENT_OPTIONS),
+                'm_il': st.selectbox("M-IL", MOVEMENT_OPTIONS),
+                'm_sm': st.selectbox("M-SM", MOVEMENT_OPTIONS),
+                'm_aslr': st.selectbox("M-ASLR", MOVEMENT_OPTIONS),
+                'm_tspu': st.selectbox("M-TSPU", MOVEMENT_OPTIONS),
+                'm_rs': st.selectbox("M-RS", MOVEMENT_OPTIONS),
+                'm_ubmc': st.selectbox("M-UBMC", MOVEMENT_OPTIONS),
+                'm_lbmc': st.selectbox("M-LBMC", MOVEMENT_OPTIONS)
+            })
+
+        submitted = st.form_submit_button("Add Entry")
+        
+        if submitted:
+            new_entry = create_new_entry(form_data)
+            new_entry_df = pd.DataFrame([new_entry])
+            st.session_state.manual_entries = pd.concat([st.session_state.manual_entries, new_entry_df], ignore_index=True)
+            st.success("Entry added successfully!")
+
+# Combine uploaded and manual data
+df = combine_data(uploaded_file, st.session_state.manual_entries)
+
+if df is not None:
     # Get unique athletes and sports
     athletes = sorted(df['Athlete Name'].unique())
     sports = sorted(df['Sport'].unique())
@@ -34,39 +90,17 @@ if uploaded_file is not None:
     
     # Filter data based on selection
     filtered_df = df[(df['Athlete Name'] == selected_athlete) & (df['Sport'] == selected_sport)].sort_values('Test Date')
-    print(filtered_df)
     
     if not filtered_df.empty:
-        # Performance metrics
-        performance_metrics = ['0-10 Yard Sprint (s)', 'Fly-10 (s)', 'Pro-Agility (s)', 
-                             'MTP Peak Force (N)', 'Chin-Up Strength (Reps)', 'CMJ (in)', 
-                             'NCMJ (in)', 'Seated Med Ball Throw (ft)', '5-Jump RSI']
-        
-        # Movement assessment metrics
-        movement_metrics = ['M-OHS', 'M-HS', 'M-IL', 'M-SM', 'M-ASLR', 
-                          'M-TSPU', 'M-RS', 'M-UBMC', 'M-LBMC']
-        
         st.header("Performance Metrics Progress")
         # Create performance metric charts
-        for metric in performance_metrics:
-            fig = px.line(filtered_df, x='Test Date', y=metric, 
-                         title=f"{metric} Progress Over Time",
-                         markers=True)
-            fig.update_layout(height=400)
+        for metric in PERFORMANCE_METRICS:
+            fig = create_performance_chart(filtered_df, metric)
             st.plotly_chart(fig, use_container_width=True)
         
         st.header("Movement Assessment Progress")
-        # Create movement assessment charts
-        movement_data = filtered_df[['Test Date'] + movement_metrics].melt(
-            id_vars=['Test Date'], 
-            value_vars=movement_metrics,
-            var_name='Movement Assessment',
-            value_name='Status'
-        )
-        
-        fig = px.scatter(movement_data, x='Test Date', y='Movement Assessment',
-                        color='Status', title="Movement Assessment Progress",
-                        height=600)
+        # Create movement assessment chart
+        fig = create_movement_assessment_chart(filtered_df)
         st.plotly_chart(fig, use_container_width=True)
         
     else:
