@@ -4,11 +4,11 @@
 
 - [x] Implement CSV upload for athlete data
 - [x] Create manual data entry form
-- [ ] Add editable performance thresholds
-- [ ] Develop scoring logic implementation
-- [ ] Generate performance codes
-- [ ] Create athlete data table with codes
-- [ ] Add table download functionality
+- [x] Add editable performance thresholds
+- [x] Develop scoring logic implementation
+- [x] Generate performance codes
+- [x] Create athlete data table with codes
+- [x] Add table download functionality
 - [ ] Implement basic bar/radar chart
 
 ## Milestone 2 ($150) - Due 14 Days from Start

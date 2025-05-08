@@ -130,8 +130,31 @@ elif page == "Thresholds Management":
     st.title("Performance Thresholds Management")
     st.markdown("Edit the thresholds directly in the table below. Changes will be automatically saved.")
     
-    # Display editable thresholds
-    thresholds_df = st.session_state.thresholds_df
+    # Add New Row section
+    with st.expander("Add New Threshold"):
+        with st.form("new_threshold_form"):
+            new_metric = st.selectbox("Select Metric", list(DEFAULT_THRESHOLDS.keys()))
+            new_score = st.selectbox("Score", ["Poor", "Fair", "Good", "Excellent"])
+            new_min = st.number_input("Minimum Value", format="%.2f")
+            new_max = st.text_input("Maximum Value (use '∞' for infinity)")
+            
+            submit_new = st.form_submit_button("Add Threshold")
+            if submit_new:
+                new_row = pd.DataFrame([{
+                    'Metric': new_metric,
+                    'Score': new_score,
+                    'Min': new_min,
+                    'Max': new_max
+                }])
+                st.session_state.thresholds_df = pd.concat([st.session_state.thresholds_df, new_row], ignore_index=True)
+                st.success("New threshold added successfully!")
+    
+    # Display editable thresholds with delete button configuration
+    thresholds_df = st.session_state.thresholds_df.copy()
+    # Add Delete column if it doesn't exist
+    if 'Delete' not in thresholds_df.columns:
+        thresholds_df['Delete'] = False
+
     edited_df = st.data_editor(
         thresholds_df,
         use_container_width=True,
@@ -158,10 +181,30 @@ elif page == "Thresholds Management":
                 width="small",
                 required=True,
             ),
+            "Delete": st.column_config.CheckboxColumn(
+                "Delete",
+                help="Select rows to delete",
+                default=False,
+            ),
         },
+        num_rows="dynamic"
     )
     
+    # Add delete button and handle deletion
+    if st.button("Delete Selected Rows"):
+        rows_to_delete = edited_df['Delete'] == True
+        if any(rows_to_delete):
+            edited_df = edited_df[~rows_to_delete].drop(columns=['Delete'])
+            st.session_state.thresholds_df = edited_df
+            st.success("Selected rows deleted successfully!")
+            st.rerun()
+        else:
+            st.warning("No rows selected for deletion")
+    
     # Update session state if changes are made
-    if not edited_df.equals(thresholds_df):
+    if 'Delete' in edited_df.columns:
+        edited_df = edited_df.drop(columns=['Delete'])
+    
+    if not edited_df.equals(st.session_state.thresholds_df):
         st.session_state.thresholds_df = edited_df
         st.success("Thresholds updated successfully!")
