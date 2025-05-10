@@ -104,6 +104,11 @@ if page == "Main Dashboard":
         # Apply thresholds and scores using session state thresholds
         scored_df = apply_thresholds(df, st.session_state.thresholds_df)
         
+        # Display the full scored DataFrame
+        st.header("All Athletes Data")
+        st.dataframe(scored_df, use_container_width=True)
+        
+        st.header("Athlete Performance Analysis")
         # Get unique athletes and sports
         athletes = sorted(df['Athlete Name'].unique())
         sports = sorted(df['Sport'].unique())

@@ -9,7 +9,7 @@
 - [x] Generate performance codes
 - [x] Create athlete data table with codes
 - [x] Add table download functionality
-- [ ] Implement basic bar/radar chart
+- [x] Implement basic bar/radar chart
 
 ## Milestone 2 ($150) - Due 14 Days from Start
 
