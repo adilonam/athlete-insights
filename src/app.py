@@ -14,10 +14,26 @@ st.set_page_config(
     layout="wide"
 )
 
-# Sidebar
+# Sidebar Navigation
 with st.sidebar:
-    st.title("Navigation")
-    page = st.radio("Go to", ["Main Dashboard", "Thresholds Management"])
+    st.title("📊 Navigation")
+    st.markdown("---")
+    
+    # Use session state to track current page if not already set
+    if 'current_page' not in st.session_state:
+        st.session_state.current_page = "Main Dashboard"
+    
+    # Navigation buttons with icons and styling
+    if st.button("🏃 Main Dashboard", use_container_width=True, type="primary" if st.session_state.current_page == "Main Dashboard" else "secondary"):
+        st.session_state.current_page = "Main Dashboard"
+        st.rerun()
+    
+    if st.button("⚙️ Thresholds Management", use_container_width=True, type="primary" if st.session_state.current_page == "Thresholds Management" else "secondary"):
+        st.session_state.current_page = "Thresholds Management"
+        st.rerun()
+    
+    st.markdown("---")
+    page = st.session_state.current_page
 
 # Initialize session state for storing manual entries and thresholds
 if 'manual_entries' not in st.session_state:
