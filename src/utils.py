@@ -8,6 +8,18 @@ PERFORMANCE_METRICS = [
     'NCMJ (in)', 'Seated Med Ball Throw (ft)', '5-Jump RSI'
 ]
 
+METRIC_EMOJIS = {
+    '0-10 Yard Sprint (s)': '🏃',
+    'Fly-10 (s)': '⚡',
+    'Pro-Agility (s)': '🔄',
+    'MTP Peak Force (N)': '💪',
+    'Chin-Up Strength (Reps)': '🏋️',
+    'CMJ (in)': '⬆️',
+    'NCMJ (in)': '↗️',
+    'Seated Med Ball Throw (ft)': '🏈',
+    '5-Jump RSI': '🦘'
+}
+
 MOVEMENT_METRICS = [
     'M-OHS', 'M-HS', 'M-IL', 'M-SM', 'M-ASLR',
     'M-TSPU', 'M-RS', 'M-UBMC', 'M-LBMC'
@@ -54,8 +66,9 @@ def combine_data(uploaded_file, manual_entries):
 
 def create_performance_chart(filtered_df, metric):
     """Create a performance metric chart."""
+    emoji = METRIC_EMOJIS.get(metric, '')  # Get emoji for metric, empty string if not found
     fig = px.line(filtered_df, x='Test Date', y=metric,
-                  title=f"{metric} Progress Over Time",
+                  title=f"{emoji} {metric} Progress Over Time",
                   markers=True)
     fig.update_layout(height=400)
     return fig
