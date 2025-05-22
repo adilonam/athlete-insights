@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import os
 from utils import check_athlete_df, add_tier_to_df
 
 # Set page configuration
@@ -20,10 +21,21 @@ except Exception as e:
 
 st.title("Athlete Insights")
 st.markdown("Welcome to Athlete Insights! Use the sidebar to navigate to different sections.")
-
+ATHLETE_CSV_PATH = "./data/notignore/athlete_data.csv"
 # Initialize athlete_df in session state if it doesn't exist
 if 'athlete_df' not in st.session_state:
-    st.session_state.athlete_df = pd.DataFrame()
+    # Try to load athlete data from CSV if it exists
+    try:
+        athlete_data_path = ATHLETE_CSV_PATH
+        if os.path.exists(athlete_data_path):
+            st.session_state.athlete_df = pd.read_csv(athlete_data_path)
+            # Add tier information to the dataframe
+            st.session_state.athlete_df = add_tier_to_df(st.session_state.athlete_df)
+        else:
+            st.session_state.athlete_df = pd.DataFrame()
+    except Exception as e:
+        st.session_state.athlete_df = pd.DataFrame()
+        st.warning(f"Could not load existing athlete data: {e}")
 
 test_name_code_df = pd.DataFrame()
 try:
@@ -140,10 +152,67 @@ with tab2:
 
 # Display the DataFrame AFTER processing the upload
 # Add tier information to the athlete dataframe
-st.session_state.athlete_df = add_tier_to_df(st.session_state.athlete_df)
 
-if st.button("Clear Athlete Data"):
-    st.session_state.athlete_df = pd.DataFrame()
+st.markdown("---")
+st.subheader("Athlete Data Management")
 
-st.dataframe(st.session_state.athlete_df, use_container_width=True)
+# Create a key that will change when we want to refresh the data editor
+if 'editor_key' not in st.session_state:
+    st.session_state.editor_key = 0
 
+# Create a data editor for the athlete data
+edited_athlete_df = st.data_editor(
+    st.session_state.athlete_df, 
+    use_container_width=True,
+    num_rows="dynamic",
+    key=f"athlete_data_editor_{st.session_state.editor_key}",
+    column_config={
+        "Athlete Name": st.column_config.TextColumn("Athlete Name", help="Name of the athlete"),
+        "Test Date": st.column_config.TextColumn("Test Date", help="Date of the test (M/D/YYYY)"),
+        "Sport": st.column_config.SelectboxColumn(
+            "Sport",
+            help="Sport of the athlete",
+            options=SPORTS,
+            required=True
+        ),
+        "Test Name": st.column_config.TextColumn("Test Name", help="Name of the test"),
+        "Test Code": st.column_config.TextColumn("Test Code", help="Code of the test"),
+        "Value": st.column_config.NumberColumn("Value", help="Test result value", format="%.2f"),
+        "Tier Number": st.column_config.NumberColumn("Tier Number", help="Performance tier (1-4)", min_value=1, max_value=4)
+    },
+    disabled=["Tier Number"]  # Make Tier Number read-only as it's calculated
+)
+
+# Keep track of the current data editor values
+st.session_state.athlete_df = edited_athlete_df
+
+# Action buttons
+col1, col2, col3 = st.columns(3)
+
+with col1:
+    if st.button("Refresh Tier Number", help="Recalculate the Tier Number for all athletes"):
+        # Update the data with fresh tier calculations
+        st.session_state.athlete_df = add_tier_to_df(st.session_state.athlete_df)
+        # Increment the key to force the data editor to refresh
+        st.session_state.editor_key += 1
+        # This will cause a rerun with the new key and updated data
+        st.rerun()
+
+with col2:
+    if st.button("Clear Athlete Data", help="Remove all athlete data from the table"):
+        st.session_state.athlete_df = pd.DataFrame()
+        # Increment the key to force the data editor to refresh
+        st.session_state.editor_key += 1
+        st.success("All data cleared!")
+        st.rerun()
+
+with col3:
+    if st.button("Save to local", help="Save the current athlete data to a CSV file"):
+        try:
+            # Apply tier calculations before saving
+            df_to_save = add_tier_to_df(st.session_state.athlete_df)
+            # Save to CSV file
+            df_to_save.to_csv(ATHLETE_CSV_PATH, index=False)
+            st.success("Data saved to athlete_data.csv successfully!")
+        except Exception as e:
+            st.error(f"Error saving data: {e}")

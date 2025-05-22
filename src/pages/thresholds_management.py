@@ -9,7 +9,8 @@ st.markdown("Edit the thresholds directly in the table below. Changes will be au
 # For example, loading, displaying, and saving threshold_df
 try:
     # Attempt to load existing data or initialize if not found
-    threshold_df = pd.read_csv("data/notignore/threshold.csv")
+    threshold_CSV_PATH = "./data/notignore/threshold.csv"
+    threshold_df = pd.read_csv(threshold_CSV_PATH)
 except FileNotFoundError:
     st.warning("Threshold data file not found. Creating a new one if you make edits.")
     # Define expected columns for an empty DataFrame
@@ -25,7 +26,7 @@ edited_df = st.data_editor(threshold_df, use_container_width=True, num_rows="dyn
 # For now, this is just a placeholder
 if st.button("Save Changes to Thresholds"):
     try:
-        edited_df.to_csv("data/notignore/threshold.csv", index=False)
+        edited_df.to_csv(threshold_CSV_PATH, index=False)
         st.success("Thresholds saved successfully!")
     except Exception as e:
         st.error(f"Error saving thresholds: {e}")
