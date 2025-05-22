@@ -37,28 +37,23 @@ if page == "Main Dashboard":
     st.title("Athlete Insights Dashboard")
     st.markdown("Welcome to the Athlete Insights Dashboard. Analyze and visualize athlete performance data.")
 
-    # Load the threshold data
+
+
     try:
-        threshold_df = pd.read_csv("data/ignore/threshold.csv")
-        # Get distinct codes and their corresponding test names
-        distinct_tests = threshold_df[["Code", "Test Name"]].drop_duplicates()
+        threshold_df = pd.read_csv("data/notignore/threshold.csv")
+        
+        # Drop duplicates based only on the "Code" column, keeping the first Test Name associated
+        test_name_code_df = threshold_df.drop_duplicates(subset=["Code"])[["Code", "Test Name"]]
+        
         st.subheader("Available Tests (Code and Name)")
-        if not distinct_tests.empty:
-            for index, row in distinct_tests.iterrows():
-                st.write(f"- {row['Code']}: {row['Test Name']}")
+        if not test_name_code_df.empty:
+            st.dataframe(test_name_code_df, use_container_width=True)
         else:
-            st.write("No test data found.")
-    except FileNotFoundError:
-        st.error("Threshold data file not found. Please check the file path: data/ignore/threshold.csv")
+            st.write("No test codes found.")
     except Exception as e:
-        st.error(f"An error occurred while loading or processing the threshold data: {e}")
-
-  
-
- 
+        st.error(f"Error loading threshold data: {e}")
 
 
 elif page == "Thresholds Management":
     st.title("Performance Thresholds Management")
     st.markdown("Edit the thresholds directly in the table below. Changes will be automatically saved.")
-
