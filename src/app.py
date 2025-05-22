@@ -132,6 +132,34 @@ if page == "Main Dashboard":
                 df_to_display = current_df[current_df['Sport'] == selected_sport]
             
             st.dataframe(df_to_display, use_container_width=True)
+
+            # Convert 'Test Date' to datetime objects for plotting
+            if 'Test Date' in df_to_display.columns:
+                try:
+                    df_to_display['Test Date'] = pd.to_datetime(df_to_display['Test Date'])
+                except Exception as e:
+                    st.warning(f"Could not convert 'Test Date' to datetime: {e}. Charts may not display correctly.")
+
+            if not df_to_display.empty and 'Test Code' in df_to_display.columns and 'Value' in df_to_display.columns and 'Test Date' in df_to_display.columns:
+                st.markdown("---")
+                st.subheader("Progress Charts by Test Code")
+                
+                # Ensure 'Test Date' is sorted for line charts
+                df_to_display = df_to_display.sort_values(by='Test Date')
+
+                for test_code in sorted(df_to_display['Test Code'].unique()):
+                    st.markdown(f"#### Progress for Test Code: {test_code}")
+                    test_specific_df = df_to_display[df_to_display['Test Code'] == test_code]
+                    
+                    if not test_specific_df.empty:
+                        # Prepare data for charting: index by Test Date, select Value
+                        chart_data = test_specific_df.set_index('Test Date')[['Value']]
+                        st.line_chart(chart_data)
+                    else:
+                        st.write("No data available for this test code in the current selection.")
+            elif 'Test Code' not in df_to_display.columns or 'Value' not in df_to_display.columns or 'Test Date' not in df_to_display.columns:
+                st.warning("Required columns ('Test Code', 'Value', 'Test Date') not available in the filtered data to display progress charts.")
+
         else:
             # This case implies 'Sport' column is missing, even if other checks passed (e.g. if 'Sport' wasn't in required_cols)
             # Or if 'athlete_df' was set in session by some other means without 'Sport'
