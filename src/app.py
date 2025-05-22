@@ -10,6 +10,10 @@ st.set_page_config(
 st.title("Athlete Insights")
 st.markdown("Welcome to Athlete Insights! Use the sidebar to navigate to different sections.")
 
+# Initialize athlete_df in session state if it doesn't exist
+if 'athlete_df' not in st.session_state:
+    st.session_state.athlete_df = pd.DataFrame()
+
 test_name_code_df = pd.DataFrame()
 try:
     threshold_df = pd.read_csv("data/notignore/threshold.csv")
@@ -52,7 +56,7 @@ if uploaded_file is not None:
                 st.error("Uploaded file is missing the 'Test Code' column.")
                 all_checks_passed = False
         
-        st.dataframe(temp_uploaded_df, use_container_width=True)
+        
         
         if all_checks_passed:
             st.success("File uploaded and validated successfully!")
@@ -63,11 +67,12 @@ if uploaded_file is not None:
         st.error(f"Error processing uploaded file: {e}")
         if 'athlete_df' in st.session_state:
             del st.session_state.athlete_df
-# Streamlit will automatically find and run pages from the 'pages' directory.
-# No explicit routing is needed here anymore.
 
-# The content of what was previously the default page (main_dashboard) 
-# can either be moved here to app.py to serve as the landing page,
-# or main_dashboard.py can be renamed to something like 01_Main_Dashboard.py 
-# in the pages folder to control its order and make it the default.
-# For now, app.py will just show a welcome message.
+# Display the DataFrame AFTER processing the upload
+
+
+if st.button("Clear Athlete Data"):
+    st.session_state.athlete_df = pd.DataFrame()
+
+st.dataframe(st.session_state.athlete_df, use_container_width=True)
+
