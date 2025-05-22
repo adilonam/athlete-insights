@@ -127,16 +127,17 @@ if page == "Main Dashboard":
                 st.session_state.selected_sport_filter = selected_sport
 
             if selected_sport == "All Sports":
-                df_to_display = current_df
+                df_to_display = current_df.copy() # Create a copy to avoid SettingWithCopyWarning
             else:
-                df_to_display = current_df[current_df['Sport'] == selected_sport]
+                df_to_display = current_df[current_df['Sport'] == selected_sport].copy() # Create a copy
             
             st.dataframe(df_to_display, use_container_width=True)
 
             # Convert 'Test Date' to datetime objects for plotting
             if 'Test Date' in df_to_display.columns:
                 try:
-                    df_to_display['Test Date'] = pd.to_datetime(df_to_display['Test Date'])
+                    # This modification should no longer raise a warning
+                    df_to_display.loc[:, 'Test Date'] = pd.to_datetime(df_to_display['Test Date'])
                 except Exception as e:
                     st.warning(f"Could not convert 'Test Date' to datetime: {e}. Charts may not display correctly.")
 
@@ -151,12 +152,12 @@ if page == "Main Dashboard":
                     st.markdown(f"#### Progress for Test Code: {test_code}")
                     test_specific_df = df_to_display[df_to_display['Test Code'] == test_code]
                     
-                    if not test_specific_df.empty:
-                        # Prepare data for charting: index by Test Date, select Value
-                        chart_data = test_specific_df.set_index('Test Date')[['Value']]
+                    if not test_specific_df.empty and 'Athlete Name' in test_specific_df.columns:
+                        # Prepare data for charting: pivot to have Test Date as index, Athlete Name as columns, and Value as values
+                        chart_data = test_specific_df.pivot_table(index='Test Date', columns='Athlete Name', values='Value')
                         st.line_chart(chart_data)
-                    else:
-                        st.write("No data available for this test code in the current selection.")
+                    elif 'Athlete Name' not in test_specific_df.columns:
+                        st.warning(f"Cannot plot individual athlete progress for Test Code {test_code} because 'Athlete Name' column is missing.")
             elif 'Test Code' not in df_to_display.columns or 'Value' not in df_to_display.columns or 'Test Date' not in df_to_display.columns:
                 st.warning("Required columns ('Test Code', 'Value', 'Test Date') not available in the filtered data to display progress charts.")
 
