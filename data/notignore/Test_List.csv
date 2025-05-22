@@ -1,0 +1,64 @@
+Category,Test Name,Code,Scoring Type
+Acceleration,0-10 Yard Sprint,A,Tiered
+Speed,Fly-10,S,Tiered
+Agility,Pro-Agility,C,Tiered
+Lower Body Force,MTP Peak Force,FL,Tiered
+Upper Body Force,Chin-Up Strength,FU,Tiered
+Lower Body Power,CMJ,VL-CMJ,Tiered
+Strength Deficit,NCMJ,VL-NCMJ,Tiered
+Elastic Strength,5-Jump RSI,R,Tiered
+Upper Body Power,Seated MB Chest Pass,VU,Tiered
+Overhead Power,Supine OH MB Throw,MB-OH,Tiered
+Rotational Power - R,Rotational MB Throw (Right),RP-R,Tiered
+Rotational Power - L,Rotational MB Throw (Left),RP-L,Tiered
+Clubhead Speed,Clubhead Speed,CS,Tiered
+Bat Speed,Bat Speed,BS,Tiered
+Broad Jump,Broad Jump,BJ,Tiered
+CMJ Peak Force,CMJ Peak Force,CMJ-N,Tiered
+DSI,Dynamic Strength Index,DSI,Calculated
+TPI - Pelvis,Pelvic Tilt,TPI-PT,Pass/Fail
+TPI - Pelvis,Pelvic Rotation,TPI-PR,Pass/Fail
+TPI - Torso,Torso Rotation,TPI-TR,Pass/Fail
+TPI - Lower Body,Overhead Deep Squat,TPI-SQ,Pass/Fail
+TPI - Lower Body,Toe Touch,TPI-TT,Pass/Fail
+TPI - Lower Body,Single Leg Balance,TPI-SLB,Pass/Fail
+TPI - Lower Body,90/90 Hip Rotation,TPI-H90,Pass/Fail
+TPI - Upper Body,Bridge with Leg Extension,TPI-BR,Pass/Fail
+TPI - Upper Body,Lat Length,TPI-LL,Pass/Fail
+TPI - Upper Body,Reach Roll and Lift,TPI-RRL,Pass/Fail
+TPI - Upper Body,Shoulder Mobility,TPI-SM,Pass/Fail
+TPI - Upper Body,Cervical Rotation,TPI-CR,Pass/Fail
+TPI - Upper Body,Forearm Rotation,TPI-FR,Pass/Fail
+TPI - Core,Lower Quarter Rotation,TPI-LQR,Pass/Fail
+TPI - Core,Seated Trunk Rotation,TPI-STR,Pass/Fail
+OBU - Shoulder/Arm,Shoulder 90/90,OBU-S9090,Pass/Fail
+OBU - Lower Body,90/90 Hip Mobility,OBU-H90,Pass/Fail
+OBU - Foot/Ankle,Ankle Mobility,OBU-AM,Pass/Fail
+OBU - Dynamic Control,Lunge & Twist,OBU-LT,Pass/Fail
+Power,Rotational Med Ball Throw,RP,Tiered
+Power,Seated MB Chest Pass,VU,Tiered
+Power,Supine OH MB Throw,MB-OH,Tiered
+Power,Broad Jump,BJ,Tiered
+Power,Vertical Jump,VJ,Tiered
+TPI,Pelvic Tilt Test,TPI-PT,Pass/Fail
+TPI,Pelvic Rotation Test,TPI-PR,Pass/Fail
+TPI,Torso Rotation Test,TPI-TR,Pass/Fail
+TPI,Overhead Deep Squat Test,TPI-SQ,Pass/Fail
+TPI,Toe Touch Test,TPI-TT,Pass/Fail
+TPI,Single Leg Balance Test,TPI-SLB,Pass/Fail
+TPI,90/90 Hip Rotation Test,TPI-H90,Pass/Fail
+TPI,Bridge with Leg Extension Test,TPI-BR,Pass/Fail
+TPI,Lat Length Test,TPI-LL,Pass/Fail
+TPI,Reach Roll and Lift Test,TPI-RRL,Pass/Fail
+TPI,Shoulder Mobility Test,TPI-SM,Pass/Fail
+TPI,Cervical Rotation Test,TPI-CR,Pass/Fail
+TPI,Forearm Rotation Test,TPI-FR,Pass/Fail
+TPI,Lower Quarter Rotation Test,TPI-LQR,Pass/Fail
+TPI,Seated Trunk Rotation Test,TPI-STR,Pass/Fail
+OBU,Shoulder 90/90 Test,OBU-S9090,Pass/Fail
+OBU,Ankle Mobility Test,OBU-AM,Pass/Fail
+OBU,Lunge & Twist Test,OBU-LT,Pass/Fail
+Power,Rotational Med Ball Shot Put,RP,Tiered
+Power,Seated Med Ball Chest Pass,VU,Tiered
+Power,Supine Overhead Med Ball Throw,MB-OH,Tiered
+Power,10-Yard Sprint,A,Tiered

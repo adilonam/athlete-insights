@@ -11,11 +11,16 @@
 - [x] Add table download functionality
 - [x] Implement basic bar/radar chart
 
+
+
 ## Milestone 2 ($150) - Due 14 Days from Start
+
+- [ ] priority to manual entry
+- [ ] data u have not enter make undef 
 
 - [ ] Create individual athlete PDF reports
 - [ ] Add test results with dates
-- [ ] Implement progress visualization charts
+- [ ] Implement progress visualization charts 
 - [ ] Match Dashr screenshot layout
 - [ ] Add additional charts and graphs
 - [ ] Optimize titles and layout
@@ -23,3 +28,7 @@
 - [ ] Deploy to Streamlit Cloud
 
 ## Total Budget: $350
+
+
+A3-S4-C2-FL4-FU3-VL-CMJ2-VL-NCMJ1-VU3-R2-RP⚠   
+

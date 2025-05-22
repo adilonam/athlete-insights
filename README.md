@@ -13,7 +13,7 @@ python -m pip install -r requirements.txt
 
 To run the dashboard:
 ```bash
-streamlit run src/app.py
+python -m streamlit run src/app.py
 ```
 
 The application will open in your default web browser. By default, Streamlit runs on http://localhost:8501

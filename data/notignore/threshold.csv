@@ -1,0 +1,78 @@
+Test Number,Test Name,Code,Scoring Type,Tier 1,Tier 2,Tier 3,Tier 4,Category,Source
+1,10-Yard Sprint,A,Tiered,<=1.50,<=1.55,<=1.60,>1.60,,
+2,Fly-10,S,Tiered,<=0.98,<=1.02,<=1.05,>1.05,,
+3,Pro-Agility,C,Tiered,<=4.40,<=4.45,<=4.50,>4.50,,
+4,MTP Peak Force,FL,Tiered,>=2600,>=2400,>=2200,<2200,,
+5,Chin-Up Strength,FU,Tiered,>=16,>=14,>=12,<12,,
+6,CMJ,VL:CMJ,Tiered,>=31,>=29,>=27,<27,,
+7,NCMJ,VL:NCMJ,Tiered,>=30,>=28,>=26,<26,,
+8,5-Jump RSI,R,Tiered,>=2.30,>=2.10,>=2.00,<2.00,,
+9,Seated Med Ball Chest Pass,VU,Tiered,>=24,>=22,>=18,<18,,
+10,Supine Overhead Med Ball Throw,MB:OH,Tiered,>=24,>=22,>=18,<18,,
+11,Rotational MB Throw (Right),RP:R,Tiered,>=40,30–39.9,23–29.9,<23,,
+12,Rotational MB Throw (Left),RP:L,Tiered,>=40,30–39.9,23–29.9,<23,,
+13,Rotational Symmetry,RP:SYM,2-Tiered,Asymmetry > 15% (Needs Attention),Asymmetry ≤ 15% (Balanced),,,,
+14,Clubhead Speed,CS,Tiered,>=115,105–114,95–104,<95,,
+15,Bat Speed,BS,Tiered,>=80,75–79,70–74,<70,,
+16,Broad Jump,BJ,Tiered,>=110,105–109,100–104,<100,,
+17,Vertical Jump,VJ,Tiered,>=30,28–29.9,25–27.9,<25,,
+18,CMJ Peak Force,CMJ:N,Tiered,>=2400,2200–2399,2000–2199,<2000,,
+19,Dynamic Strength Index,DSI,Calculated,0.60–0.80,Balanced,Outside Ideal,<0.60 or >0.80,,
+20,Pelvic Tilt Test,ROT:PT,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,,
+21,Pelvic Rotation Test,ROT:H90,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,,
+22,Ankle Mobility,ROT:PR,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,,
+23,Bridge with Leg Extension Test,ROT:BR,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,,
+24,Cervical Rotation Test,ROT:CR,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,,
+25,Forearm Rotation Test,ROT:FR,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,,
+26,Lat Length Test,ROT:LL,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,,
+27,Lower Quarter Rotation Test,ROT:LQR,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,,
+28,Lunge & Twist,ROT:LL,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,,
+29,Overhead Deep Squat Test,ROT:SQ,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,,
+30,Pelvic Rotation Test,ROT:PR,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,,
+31,Pelvic Tilt Test,ROT:PT,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,,
+32,Reach Roll and Lift Test,ROT:RRL,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,,
+33,Seated Trunk Rotation Test,ROT:STR,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,,
+34,Shoulder 90/90,ROT:SM,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,,
+35,Shoulder Mobility Test,ROT:SM,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,,
+36,Single Leg Balance Test,ROT:SLB,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,,
+37,Toe Touch Test,ROT:TT,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,,
+38,Torso Rotation Test,ROT:TR,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,,
+39,Overhead Squat,FMS:OHS,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,,
+40,Hurdle Step,FMS:HS,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,,
+41,Inline Lunge,FMS:IL,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,,
+42,Active Straight Leg Raise,FMS:ASLR,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,,
+43,Trunk Stability Push-Up,FMS:TSPU,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,,
+44,Rotary Stability,FMS:RS,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,,
+45,Upper Body Motor Control,FMS:UBMC,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,,
+46,Lower Body Motor Control,FMS:LBMC,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,,
+47,Setup Posture,ROT:SET,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,Movement Screen,TPI
+48,Pelvic Tilt Test,ROT:PEL,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,Movement Screen,TPI
+49,Pelvic Rotation Test,ROT:PEL,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,Movement Screen,TPI
+50,Torso Rotation Test,ROT:TOR,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,Movement Screen,TPI
+51,Overhead Deep Squat Test,ROT:OVE,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,Movement Screen,TPI
+52,Toe Touch Test,ROT:TOE,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,Movement Screen,TPI
+53,90/90 Shoulder Mobility Test,ROT:90/,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,Movement Screen,TPI
+54,Single Leg Balance Test,ROT:SIN,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,Movement Screen,TPI
+55,Lat Length Test,ROT:LAT,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,Movement Screen,TPI
+56,Lower Quarter Rotation Test,ROT:LOW,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,Movement Screen,TPI
+57,Seated Trunk Rotation Test,ROT:SEA,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,Movement Screen,TPI
+58,Bridge with Leg Extension Test,ROT:BRI,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,Movement Screen,TPI
+59,Cervical Rotation Test,ROT:CER,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,Movement Screen,TPI
+60,Forearm Rotation Test,ROT:FOR,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,Movement Screen,TPI
+61,Wrist Hinge Test,ROT:WRI,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,Movement Screen,TPI
+62,Wrist Flexion/Extension Test,ROT:WRI,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,Movement Screen,TPI
+63,Toe Tap Test,ROT:TOE,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,Movement Screen,OBU Hitting
+64,Hip 45 Test,ROT:HIP,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,Movement Screen,OBU Hitting
+65,Hurdle Step,ROT:HUR,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,Movement Screen,OBU Hitting
+66,Ankle Rocking Test,ROT:ANK,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,Movement Screen,OBU Hitting
+67,Shoulder 4&6 Test,ROT:SHO,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,Movement Screen,OBU Hitting
+68,Separation Test,ROT:SEP,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,Movement Screen,OBU Hitting
+69,Holding Angle Test,ROT:HOL,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,Movement Screen,OBU Hitting
+70,Hitchhiker Test,ROT:HIT,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,Movement Screen,OBU Hitting
+71,Wide Squat Test,ROT:WID,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,Movement Screen,OBU Hitting
+72,Side Step Walkout Test,ROT:SID,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,Movement Screen,OBU Pitching
+73,Push-Off Test,ROT:PUS,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,Movement Screen,OBU Pitching
+74,Heel Lift Test,ROT:HEE,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,Movement Screen,OBU Pitching
+75,Ankle Roll Test,ROT:ANK,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,Movement Screen,OBU Pitching
+76,Half-Kneeling Narrow Base Test,ROT:HAL,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,Movement Screen,OBU Pitching
+77,Lunge with Extension Test,ROT:LUN,Movement Quality,Pain,Below Standard,Needs Improvement,No Limitation,Movement Screen,OBU Pitching
