@@ -19,15 +19,13 @@ except Exception as e:
     st.error(f"Error loading threshold data: {e}")
     threshold_df = pd.DataFrame(columns=["Test Name", "Code", "Lower Threshold", "Upper Threshold", "Unit"]) # Initialize an empty df on error
 
-st.info("Editing functionality for thresholds is not yet fully implemented in this view.")
-st.dataframe(threshold_df, use_container_width=True)
+edited_df = st.data_editor(threshold_df, use_container_width=True, num_rows="dynamic")
 
 # Example of how saving could be handled (e.g., with a button or on_change)
 # For now, this is just a placeholder
-if st.button("Save Changes to Thresholds (Not Implemented)"):
-    st.warning("Save functionality is not yet implemented.")
-    # try:
-    #     threshold_df.to_csv("data/notignore/threshold.csv", index=False)
-    #     st.success("Thresholds saved successfully!")
-    # except Exception as e:
-    #     st.error(f"Error saving thresholds: {e}")
+if st.button("Save Changes to Thresholds"):
+    try:
+        edited_df.to_csv("data/notignore/threshold.csv", index=False)
+        st.success("Thresholds saved successfully!")
+    except Exception as e:
+        st.error(f"Error saving thresholds: {e}")
