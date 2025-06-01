@@ -15,20 +15,23 @@
 
 ## Milestone 2 ($150) - Due 14 Days from Start
 
-- [ ] priority to manual entry
-- [ ] data u have not enter make undef 
+- [x] priority to manual entry
+- [x] data u have not enter make undef 
 
 - [ ] Create individual athlete PDF reports
-- [ ] Add test results with dates
-- [ ] Implement progress visualization charts 
-- [ ] Match Dashr screenshot layout
-- [ ] Add additional charts and graphs
-- [ ] Optimize titles and layout
-- [ ] Implement responsive design
-- [ ] Deploy to Streamlit Cloud
+- [x] Add test results with dates
+- [x] Implement progress visualization charts 
+- [x] Match Dashr screenshot layout
+- [x] Add additional charts and graphs
+- [x] Optimize titles and layout
+- [x] Implement responsive design
+- [x] Deploy to Streamlit Cloud
 
 ## Total Budget: $350
 
 
 A3-S4-C2-FL4-FU3-VL-CMJ2-VL-NCMJ1-VU3-R2-RP⚠   
 
+
+- [ ] fms test must have pass fa 
+- [ ] add filter to specify athlete 

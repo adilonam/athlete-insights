@@ -41,7 +41,7 @@ test_name_code_df = pd.DataFrame()
 try:
     threshold_df = pd.read_csv("data/notignore/threshold.csv")
     
-    test_name_code_df = threshold_df.drop_duplicates(subset=["Code"])[["Code", "Test Name"]]
+    test_name_code_df = threshold_df.drop_duplicates(subset=["Code"])
     test_name_code_df = test_name_code_df.rename(columns={"Code": "Test Code"})
     
     st.subheader("Available Tests (Code and Name)")
@@ -60,62 +60,58 @@ st.markdown("---")
 st.subheader("Add Athlete Data")
 
 # Create tabs for different input methods
-tab1, tab2 = st.tabs(["Upload CSV", "Manual Entry"])
+tab1, tab2 = st.tabs(["Manual Entry", "Upload CSV"])
 
-# Tab 1: Upload CSV file
+# Tab 1: Manual Entry
 with tab1:
-    uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
-
-    if uploaded_file is not None:
-        try:
-            temp_uploaded_df = pd.read_csv(uploaded_file)
+    st.subheader("Enter Athlete Data Manually")
+    
+    # Form inputs matching the CSV structure (outside form for dynamic updates)
+    athlete_name = st.text_input("Athlete Name")
+    test_date = st.date_input("Test Date")
+    sport = st.selectbox("Sport", SPORTS)
+    
+    # If test codes are available, use them in a dropdown
+    if not test_name_code_df.empty:
+        test_options = {row['Test Name']: row['Test Code'] for _, row in test_name_code_df.iterrows()}
+        test_name = st.selectbox("Test Name", list(test_options.keys()))
+        test_code = test_options[test_name]
+    else:
+        test_name = st.text_input("Test Name")
+        test_code = st.text_input("Test Code")
+    
+    # Initialize value variable
+    value = None
+    
+    if test_code and test_name:
+        st.write(f"Selected Test Code: {test_code} for Test Name: {test_name}")
+        _df = test_name_code_df[test_name_code_df['Test Code'] == test_code]
+        
+        if not _df.empty:
+            scoring_type = _df['Scoring Type'].values[0]
             
-            # Use the check_athlete_df function from utils
-            all_checks_passed, error_messages = check_athlete_df(
-                temp_uploaded_df, 
-                test_name_code_df,
-                SPORTS
-            )
-            
-            # Display any error messages
-            for error_msg in error_messages:
-                st.error(error_msg)
-            
-            if all_checks_passed:
-                st.success("File uploaded and validated successfully!")
-                # Add tier information to the dataframe
-                st.session_state.athlete_df = add_tier_to_df(temp_uploaded_df)
-                st.session_state.selected_sport_filter = "All Sports" 
-            
-        except Exception as e:
-            st.error(f"Error processing uploaded file: {e}")
-            if 'athlete_df' in st.session_state:
-                del st.session_state.athlete_df
-
-# Tab 2: Manual Entry
-with tab2:
+            if scoring_type == 'Tiered':
+                value = st.number_input("Value (for Tiered tests)", min_value=0.0, step=0.1)
+            else:
+                # For Movement Quality and Calculated scoring types, use the tier options
+                tier_options = _df[["Tier 1", "Tier 2", "Tier 3", "Tier 4"]].values.flatten()
+                # Remove NaN values and convert to list
+                tier_options = [str(opt) for opt in tier_options if pd.notna(opt)]
+                
+                if tier_options:
+                    value = st.selectbox(
+                        f"Value (for {scoring_type} tests)",
+                        options=tier_options,
+                        help="Select the appropriate value for the test"
+                    )
+                else:
+                    value = st.text_input("Value", help="Enter the value for this test")
+    
+    # Form for submission only
     with st.form("manual_entry_form"):
-        st.subheader("Enter Athlete Data Manually")
-        
-        # Form inputs matching the CSV structure
-        athlete_name = st.text_input("Athlete Name")
-        test_date = st.date_input("Test Date")
-        sport = st.selectbox("Sport", SPORTS)
-        
-        # If test codes are available, use them in a dropdown
-        if not test_name_code_df.empty:
-            test_options = {row['Test Name']: row['Test Code'] for _, row in test_name_code_df.iterrows()}
-            test_name = st.selectbox("Test Name", list(test_options.keys()))
-            test_code = test_options[test_name]
-        else:
-            test_name = st.text_input("Test Name")
-            test_code = st.text_input("Test Code")
-        
-        value = st.number_input("Value", format="%.2f")
-        
         submit_button = st.form_submit_button("Add Entry")
         
-        if submit_button and athlete_name and sport and test_name and test_code:
+        if submit_button and athlete_name and sport and test_name and test_code and value is not None:
             # Create new entry
             new_entry = pd.DataFrame({
                 "Athlete Name": [athlete_name],
@@ -150,6 +146,36 @@ with tab2:
                 for error_msg in error_messages:
                     st.error(error_msg)
 
+# Tab 2: Upload CSV file
+with tab2:
+    uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
+
+    if uploaded_file is not None:
+        try:
+            temp_uploaded_df = pd.read_csv(uploaded_file)
+            
+            # Use the check_athlete_df function from utils
+            all_checks_passed, error_messages = check_athlete_df(
+                temp_uploaded_df, 
+                test_name_code_df,
+                SPORTS
+            )
+            
+            # Display any error messages
+            for error_msg in error_messages:
+                st.error(error_msg)
+            
+            if all_checks_passed:
+                st.success("File uploaded and validated successfully!")
+                # Add tier information to the dataframe
+                st.session_state.athlete_df = add_tier_to_df(temp_uploaded_df)
+                st.session_state.selected_sport_filter = "All Sports" 
+            
+        except Exception as e:
+            st.error(f"Error processing uploaded file: {e}")
+            if 'athlete_df' in st.session_state:
+                del st.session_state.athlete_df
+
 # Display the DataFrame AFTER processing the upload
 # Add tier information to the athlete dataframe
 
@@ -177,7 +203,7 @@ edited_athlete_df = st.data_editor(
         ),
         "Test Name": st.column_config.TextColumn("Test Name", help="Name of the test"),
         "Test Code": st.column_config.TextColumn("Test Code", help="Code of the test"),
-        "Value": st.column_config.NumberColumn("Value", help="Test result value", format="%.2f"),
+        "Value": st.column_config.TextColumn("Value", help="Value of the test"),
         "Tier Number": st.column_config.NumberColumn("Tier Number", help="Performance tier (1-4)", min_value=1, max_value=4)
     },
     disabled=["Tier Number"]  # Make Tier Number read-only as it's calculated
