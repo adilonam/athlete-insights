@@ -120,9 +120,8 @@ def get_tier_for_test(test_code: str, value: Union[float, str]) -> str | None: #
         
         # Use TIER_NAMES constant to get tier condition strings from the row
         tier_conditions_str = [row.get(tier_name) for tier_name in TIER_NAMES]
-        
         if scoring_type == 'Tiered':
-            if not isinstance(value, (float, int)):
+            if not str(value).replace('.', '').replace('-', '').isdigit():
                 return None # Value type mismatch for 'Tiered'
 
             # Parse all conditions first (only relevant for 'Tiered')
@@ -130,7 +129,6 @@ def get_tier_for_test(test_code: str, value: Union[float, str]) -> str | None: #
 
             # Convert value to float for comparison
             float_value = float(value)
-            
             # Check all tiers in a loop
             for i, (operator, threshold) in enumerate(parsed_conditions):
                 if _check_value(float_value, operator, threshold):

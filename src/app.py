@@ -29,6 +29,9 @@ if 'athlete_df' not in st.session_state:
         athlete_data_path = ATHLETE_CSV_PATH
         if os.path.exists(athlete_data_path):
             st.session_state.athlete_df = pd.read_csv(athlete_data_path)
+            # Ensure Value column is treated as string for consistency with TextColumn
+            if not st.session_state.athlete_df.empty and 'Value' in st.session_state.athlete_df.columns:
+                st.session_state.athlete_df['Value'] = st.session_state.athlete_df['Value'].astype(str)
             # Add tier information to the dataframe
             st.session_state.athlete_df = add_tier_to_df(st.session_state.athlete_df)
         else:
@@ -119,7 +122,7 @@ with tab1:
                 "Sport": [sport],
                 "Test Name": [test_name],
                 "Test Code": [test_code],
-                "Value": [value]
+                "Value": [str(value)]  # Convert to string to match TextColumn configuration
             })
             
             # Validate the entry
@@ -153,6 +156,9 @@ with tab2:
     if uploaded_file is not None:
         try:
             temp_uploaded_df = pd.read_csv(uploaded_file)
+            # Ensure Value column is treated as string for consistency with TextColumn
+            if 'Value' in temp_uploaded_df.columns:
+                temp_uploaded_df['Value'] = temp_uploaded_df['Value'].astype(str)
             
             # Use the check_athlete_df function from utils
             all_checks_passed, error_messages = check_athlete_df(
