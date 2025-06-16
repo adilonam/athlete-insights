@@ -56,6 +56,32 @@ if 'athlete_df' in st.session_state:
             st.session_state.applied_athlete_filter = selected_athlete
             st.rerun()
     
+    # Show Best Records button
+    if st.button("Show Best Records", type="secondary"):
+        if st.session_state.applied_athlete_filter != "All Athletes" and st.session_state.applied_sport_filter != "All Sports":
+            # Filter data for the selected athlete and sport
+            best_records_df = current_df[
+                (current_df['Athlete Name'] == st.session_state.applied_athlete_filter) & 
+                (current_df['Sport'] == st.session_state.applied_sport_filter)
+            ]
+            
+            if not best_records_df.empty and 'Test Code' in best_records_df.columns and 'Tier Number' in best_records_df.columns:
+                # Find the best (highest) tier number for each test code
+                best_records = best_records_df.groupby('Test Code')['Tier Number'].max().reset_index()
+                
+                # Create the formatted string like "A3-B2"
+                record_parts = []
+                for _, row in best_records.iterrows():
+                    record_parts.append(f"{row['Test Code']}{row['Tier Number']}")
+                
+                best_record_string = "-".join(record_parts)
+                
+                st.success(f"**Best Records for {st.session_state.applied_athlete_filter} in {st.session_state.applied_sport_filter}:** {best_record_string}")
+            else:
+                st.warning("No records found for the selected athlete and sport.")
+        else:
+            st.warning("Please select both a specific athlete and sport to view best records.")
+    
     # Reset Filters button
     if st.button("Reset Filters"):
         st.session_state.applied_sport_filter = "All Sports"
